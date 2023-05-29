@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+       /*    
+        - Quantidade de pessoas do sexo Masculino (OK)
+        - Percentual de pessoas do sexo Feminino e Outros(OK)
+        - Média de idade dos Homens(OK)
+        - Nome da Mulher mais idosa(OK)
+        - Média geral de idade(OK)
+        - Percentual de pessoas com idade acima de 50 anos(OK)
+        - Quantidade de erros que o usuário cometeu ao digitar os dados (?)
+        - Nome e idade da pessoa mais nova. Caso haja pessoas com idades iguais, mostrar apenas a primeira delas.(OK)
+        - Média de caracteres dos nomes (apenas mulheres)(OK)
+        - Menor nome (em ordem alfabética)
+        - Maior nome (em quantidade de caracteres)
+     */ 
+        
+            let nome = [];
+            let idade = [];
+            let  sexo = [];
+            let homem = 0;
+            let FEM_E_Outros = 0;
+            let media_Idade_M = 0;
+            let mediaFEM = 0;
+            let percentFem = 0;
+            let mulherMaisVelha = 0;
+            let mulher_mais_velha = "spam";
+            let mediaIdadeGeral = 0;
+            let idadeMaior50 = 0;
+            let nomeMaisNovo = "spam";
+            let idadeMaisNovo = 118;
+            let mediaCarac = 0;
+
+        for(i=0;i<6;i++){
+        nome[i] = prompt("Qual seu nome");    
+        idade[i] = parseInt(prompt("Qual sua idade"));
+        sexo[i] =  prompt("Qual seu Sexo F/M").toUpperCase();
+
+                if(sexo[i]=='M'){homem++; media_Idade_M=media_Idade_M+idade[i];
+                }   
+                else{
+                    FEM_E_Outros++;
+                    if(idade[i]>mulherMaisVelha){mulherMaisVelha = idade[i]; mulher_mais_velha = nome[i]};
+                    mediaCarac = mediaCarac + nome[i].length;
+                } 
+
+                mediaIdadeGeral = mediaIdadeGeral + idade[i];
+                if(idade[i] > 50){idadeMaior50 = idadeMaior50 + idade[i]};
+
+                        
+                if(idade[i]<idadeMaisNovo){idadeMaisNovo = idade[i];nomeMaisNovo=nome[i]};
+                
+        }
+
+        let nomesOrdenado = nome.sort();
+        let menorNome = nomesOrdenado[0];
+        let maiorNome = nomesOrdenado[5];
+
+        percentFem = (FEM_E_Outros/6) * 100;
+        mediaIdadeGeral = mediaIdadeGeral / 6;
+        mediaCarac = mediaCarac/FEM_E_Outros;
+
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- Construa um programa em javascript que solicite uma frase (mínimo 50 caracteres) e posteriormente:(OK)
+    - separe cada palavra em um vetor (v1) de strings(OK)
+    - monte um segundo vetor (v2) com o conteúdo do primeiro vetor (V1), convertendo todos os caracteres em maiúsculo(OK)
+    - monte um terceiro vetor (v3) com o conteúdo do segundo vetor (V2), invertendo cada uma das palavras ("CASA" -> "ASAC")(OK)
+    - monte uma matriz 10x5 contendo os primeiros 50 caracteres da frase, alternando entre maiúsculo e minúsculo (OK)
+    - Apresente:
+    - a frase(OK)
+    - o primeiro vetor (OK)
+    - o segundo vetor(OK)
+    - o terceiro vetor(OK)
+    - a matriz(OK)
+    - a quantidade de palavras palíndromos(OK)
+    - a quantidade de vogais(OK)
+    - a quantidade de consoantes(OK)
+    - a quantidade de espaços -->
+
+<script>
+    const qntLinhas = 5;
+    const qntColunas = 10;
+    let m = [];
+
+    let frase;
+    let qntLetras;
+    let palavras;
+    let palavras_maiusculas = [];
+    let palavras_invertidas = [];
+    let palindromas = false;
+    let qntPalindromas = 0;
+    let qntVogais;
+    let qntConsoantes;
+    let qntEspacos;
+
+    aux_palindromas = palavras_maiusculas.join('');
+
+                //Pede uma frase com no minimo 50 caracteres escritos
+                do {
+                frase = prompt("Escreva uma frase com no mínimo 50 letras");
+                qntLetras = frase.replace(/\s/g, '');
+                } while (qntLetras.length < 50);
+
+                //Coloca as palavras escrita na frase em um array separado palavra por palavra
+                palavras = frase.split(" ");
+
+                //Converte as palavras para maiuscula e adiciona elas novamente no array de palavras maiusculas
+                function paraMaiuscula(palavras) {
+                for (let i = 0; i < palavras.length; i++) {
+                    let palavra_maiuscula = palavras[i].toUpperCase();
+                    palavras_maiusculas.push(palavra_maiuscula);
+                }
+                }
+
+                //Inverte as palavras (CASA/ASAC)
+                function inverterPalavra(palavra) {
+                let palavra_invertida = palavra.split('').reverse().join('');
+                return palavra_invertida;
+                }
+
+                //Coloca as palavras do array em maiusculas
+                paraMaiuscula(palavras);
+
+                //Chama a função inverterPalavra, invertendo as palavras dentro do array palavras_maiusculas
+                for (let i = 0; i < palavras_maiusculas.length; i++) {
+                let palavra_invertida = inverterPalavra(palavras_maiusculas[i]);
+                palavras_invertidas.push(palavra_invertida);
+                }
+
+                //Pega os primeiros 50 caracteres da frase, sem espaços.
+                let primeiros_carac = palavras_maiusculas.join("");
+                    primeiros_carac = primeiros_carac.substring(0,50);
+
+                let x = -1;
+
+                //Cria a matriz 10x5 (qntLinhas/qntColunas)
+                function criarMatriz(){
+                    for(i=0;i<qntLinhas;i++){
+                    m[i] = [];
+                        for(j=0;j<qntColunas;j++){
+                        x++;
+                        if(x%2==1){         // Caso o do contador X seja impar a letra será minuscula.
+                            var aux = primeiros_carac.charAt(x);
+                            m[i][j] = aux.toLowerCase();
+                            }else{          //Senão ela continua maiuscula
+                                m[i][j] = primeiros_carac.charAt(x);
+                            }               
+                        }
+                    }
+                }
+        
+                // Apenas escreve a matriz na tela.
+                function mostraMatriz(){
+                        document.write("<h2>Matriz de Caracteres</h2>");
+
+                            for(i=0;i<qntLinhas;i++){
+                                for(j=0;j<qntColunas;j++){
+                                    document.write(m[i][j] + " ");
+                                }
+                            document.write("<br>");
+                            }
+                        }
+                
+                // Mostra os arrays produzidos.
+                function mostraConteudo(){
+                    document.write(`<h1> A frase apresentada foi: ${frase} </h1>`);  // Template string para apresentar a frase escrita.
+
+                    // .join Para vacilitar a manipulação dos arrays tornando eles em string
+                    document.write("<h2>Primeiro Vetor</h2>");
+                    document.write(palavras.join(", ")); 
+
+                    document.write("<h2>Segundo Vetor</h2>");
+                    document.write(palavras_maiusculas.join(", "));
+
+                    document.write("<h2>Terceiro Vetor</h2>");
+                    document.write(palavras_invertidas.join(", "));
+                    mostraMatriz();
+
+                    //Template string para apresentar qntVogais, qntConsoantes e qntEspaços
+                    document.write(`<h2> A frase apresentada possui: ${qntVogais} vogais. </h2>`)
+
+                    document.write(`<h2> A frase apresentada possui: ${qntConsoantes} consoantes. </h2>`)
+
+                    document.write(`<h2> A frase apresentada possui: ${qntEspacos} espaços. </h2>`)
+                        
+                    }   
+                       
+
+                function checkQuant(){
+                    let palindromas = palavras_invertidas.filter((palavra) => palavras.includes(palavra));
+                    qntPalindromas = palindromas.length;
+
+
+                    let vogais = palavras_maiusculas.join('').match(/[AEIOU]/gi);
+                    qntVogais = vogais ? vogais.length : 0;
+
+                    let consoantes = palavras_maiusculas.join('').match(/[BCDFGHJKLMNPQRSTVWXYZ]/gi);
+                    qntConsoantes = consoantes ? consoantes.length : 0;
+
+                    let espacos = frase.match(/\s/g);
+                    qntEspacos = espacos ? espacos.length : 0;
+                }
+
+                criarMatriz();
+                checkQuant();
+                mostraConteudo();
+                
+</script>
+</body>
+</html>
+

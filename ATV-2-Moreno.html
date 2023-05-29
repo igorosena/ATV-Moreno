@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+        <!-- Construir um programa em JS que resolva o seguinte problema:
+
+    Preencha uma matriz 10x10 com valores aleatórios (nao repetidos) entre 10 e 1000. (OK)
+    Posteriormente, alimente um vetor contendo apenas os valores pares da matriz, classificando-o em ordem crescente.(OK)
+    Em seguida, alimente um segundo vetor contendo os números primos da matriz, classificando-o em orden decrescente.(OK)
+    Por fim, alimente um terceiro vetor contendo apenas a interseção entre os dois primeiros vetores.
+
+    Apresente no final a matriz e os três vetores -->
+
+    <script>
+        const min = 1;
+        const max = 1000;
+        const lin = 10;
+        const col = 10;
+
+        let eh_primo = false;
+    
+        let m = [];
+        let vetDesordenado = [];
+        let vetOrdenado = [];
+        let vetPares = [];
+        let vetPrimos = [];
+        
+
+        // Gera a Matriz
+        for (let i = 0; i < lin; i++) {
+            m[i] = []; //A cada vez que o FOR entra no laço I cria uma nova linha na matriz
+            for (let j = 0; j < col; j++) {
+                let naoEsta = false;
+                let checarNumero;
+                
+                do {
+                    checarNumero = sortNum(min, max); // Passa os parametros MIN-MAX para gerar a matriz
+                    naoEsta = checaNum(checarNumero);
+                } while (naoEsta);
+    
+                m[i][j] = checarNumero;
+                vetDesordenado.push(checarNumero);
+            }
+        }
+    
+        // Sorteia numeros para alimentar o vetor. Parametro MIN/MAX está como CONST mas pode ser alterado para mudar o tamanho do exercicio.
+        function sortNum(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min; 
+        }
+    
+        //Verifica se o (numero) está no ...vetDesornado, chamado com ... antes para 
+        function checaNum(numero) {
+            return vetDesordenado.includes(numero);
+        }
+                    vetOrdenado = [...vetDesordenado];    //Cria o vetOrdenado usando o vetDesordenado como parametro.
+                    vetOrdenado.sort(function(a, b) {     // Determina a ordem dos elementos, para que o .sort fique em ordem crescente.
+                        return a - b;
+                    });
+        
+        // Usa o vetor já ordenado para criar o vetor com números pares
+        function numPares(vetOrdenado,vetPares){
+            for(i=0;i<vetOrdenado.length;i++){
+                if(vetOrdenado[i] % 2 == 0 ){
+                    numPar = vetOrdenado[i];
+                    vetPares.push(numPar); // Adiciona o número par no final do vetor para continuar em ordem crescente
+                }
+            }
+        }
+
+        // Cria o vetor de numeros Primos
+        function numPrimos(vetOrdenado) {
+                for (let i = 0; i < vetOrdenado.length; i++) {
+                    let numero = vetOrdenado[i]; 
+                    
+                    if (numero < 2) {
+                        eh_primo = false;
+                    } else if (numero === 2) {
+                        eh_primo = true;
+                        vetPrimos.unshift(vetOrdenado[i]);
+                    } else {
+                        let eh_primo = true;
+                        for (let j = 2; j < numero; j++) {
+                            if (numero % j === 0) {
+                                eh_primo = false;
+                                break;
+                            }
+                        }
+                        if (eh_primo) {
+                            vetPrimos.unshift(vetOrdenado[i]); // Coloca o valor no começo do vetor para ficar em ordem decrescente
+                        }
+                    }
+                }
+            }
+
+let intersecao = vetPares.filter((Element) => { return vetPrimos.includes(Element)}); //Realiza a interseção entre vetPares e vetPrimos
+
+
+
+
+//        FUNÇÕES PARA  EXIBIR MATRIZ/VETORES/INTERSEÇÃO
+
+    function mostraMatrizes(){
+        document.write("<h1>Matriz<br>");
+
+        for(i=0;i<lin;i++){
+            for(j=0;j<col;j++){
+            document.write(m[i][j]+ " ");
+        } document.write("<br>") }
+    }
+
+function mostraVetores(){
+        document.write("<h2>Vetor Ordenado</br>");
+        document.write(vetOrdenado.join(" "));
+    
+        document.write("<h3>Vetor Desordenado</br>");
+        document.write(vetDesordenado.join(" "));
+
+        document.write("<h4>Vetor Pares</br>");
+        document.write(vetPares.join(" "));
+
+        document.write("<h5>Vetor Primos</br>");
+        document.write(vetPrimos.join(" "));
+
+       
+        // document.write("<h2>Vetor Interseção</br>");  
+        // document.write(intersecao.join(" "));
+
+}
+
+numPares(vetOrdenado,vetPares);
+numPrimos(vetOrdenado);
+mostraMatrizes();
+mostraVetores();
+
+    </script>
+    
+</body>
+</html>
+
+
